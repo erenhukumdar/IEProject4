@@ -8,6 +8,7 @@ public class GoldenSectionMethod {
 	private double goldenRatio;
 	private double[] coEffs;
 	private double functionWithXMone,functionWithXMtwo;
+	private double functionValue;
 	
 	public GoldenSectionMethod(double e,double l, double u,double [] cE)
 	{
@@ -48,13 +49,7 @@ public class GoldenSectionMethod {
 		//Step5
 		//RETURN RESULTS
 		setXMean(calculateXm(getXUpper(),getXLower())); 
-		System.out.println("Report of BisectionSearch");
-		System.out.println("App. Optimum Soln.=" + String.valueOf(getXMean()));
-		System.out.println("Abs. Range for Opt. Soln.=[" + String.valueOf(getXLower())+"-"+String.valueOf(getXUpper())+"]");
-		System.out.println("Z=" + String.valueOf(calculateFunction(getXMean(),getCoEffs())));
-
-	
-		
+		functionValue=calculateFunction(getXMean(),getCoEffs());		
 	}
 	
 	//_______________________________________ Preparation operations ____________________________________________	
@@ -147,6 +142,30 @@ public class GoldenSectionMethod {
 
 	public void setXMtwo(double xMtwo) {
 		XMtwo = xMtwo;
+	}
+
+	public double getFunctionWithXMone() {
+		return functionWithXMone;
+	}
+
+	public void setFunctionWithXMone(double functionWithXMone) {
+		this.functionWithXMone = functionWithXMone;
+	}
+
+	public double getFunctionWithXMtwo() {
+		return functionWithXMtwo;
+	}
+
+	public void setFunctionWithXMtwo(double functionWithXMtwo) {
+		this.functionWithXMtwo = functionWithXMtwo;
+	}
+
+	public double getFunctionValue() {
+		return functionValue;
+	}
+
+	public void setFunctionValue(double functionValue) {
+		this.functionValue = functionValue;
 	}
 	
 }

@@ -6,6 +6,7 @@ public class BisectionMethod {
 	
 	private double XMean,XUpper,XLower,UnCertanity;
 	private double[] coEffs;
+	private double functionValue;
 	
 	public BisectionMethod(double e,double l, double u,double [] cE)
 	{
@@ -35,13 +36,7 @@ public class BisectionMethod {
 		}
 		//Step5
 		//RETURN RESULTS
-		
-		System.out.println("Report of BisectionSearch");
-		System.out.println("App. Optimum Soln.=" + String.valueOf(getXMean()));
-		System.out.println("Abs. Range for Opt. Soln.=[" + String.valueOf(getXLower())+"-"+String.valueOf(getXUpper())+"]");
-		System.out.println("Z=" + String.valueOf(calculateFunction(getXMean(),getCoEffs())));
-
-	
+		functionValue=calculateFunction(getXMean(),getCoEffs());
 		
 	}
 	
@@ -103,6 +98,14 @@ public class BisectionMethod {
 
 	public void setCoEffs(double[] coEffs) {
 		this.coEffs = coEffs;
+	}
+
+	public double getFunctionValue() {
+		return functionValue;
+	}
+
+	public void setFunctionValue(double functionValue) {
+		this.functionValue = functionValue;
 	}
 	
 
