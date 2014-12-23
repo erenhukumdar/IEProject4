@@ -4,12 +4,9 @@ import java.lang.Math;
 
 public class BisectionMethod {
 	
-	//Variables of steps
 	private double XMean,XUpper,XLower,UnCertanity;
 	private double[] coEffs;
 	
-	
-
 	public BisectionMethod(double e,double l, double u,double [] cE)
 	{
 		

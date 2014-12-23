@@ -4,130 +4,149 @@ import java.lang.Math;
 
 public class GoldenSectionMethod {
 	
-	// UNWRITTEN
+	private double XMean,XUpper,XMone,XMtwo,XLower,UnCertanity;
+	private double goldenRatio;
+	private double[] coEffs;
+	private double functionWithXMone,functionWithXMtwo;
 	
-//	private double x, xnew;   // value of iterates
-//	private double delta;     // amount added to get next iterate
-//	private double error;     // error estimate
-//	private double tol;       // tolerance (max error)
-//	private double l, u;    // interval values lower and upper boundary
-//	private double[] coeffs;
-//	public double getX() {
-//		return x;
-//	}
-//	public void setX(double x) {
-//		this.x = x;
-//	}
-//	public double getXnew() {
-//		return xnew;
-//	}
-//	public void setXnew(double xnew) {
-//		this.xnew = xnew;
-//	}
-//	public double getDelta() {
-//		return delta;
-//	}
-//	public void setDelta(double delta) {
-//		this.delta = delta;
-//	}
-//	public double getError() {
-//		return error;
-//	}
-//	public void setError(double error) {
-//		this.error = error;
-//	}
-//	public double getTol() {
-//		return tol;
-//	}
-//	public void setTol(double tol) {
-//		this.tol = tol;
-//	}
-//	
-//	public double getL() {
-//		return l;
-//	}
-//	public void setL(double l) {
-//		this.l = l;
-//	}
-//	public double getU() {
-//		return u;
-//	}
-//	public void setU(double u) {
-//		this.u = u;
-//	}
-//	
-//	
-//	
-//	public double[] getCoeffs() {
-//		return coeffs;
-//	}
-//	public void setCoeffs(double[] coeffs) {
-//		this.coeffs = coeffs;
-//	}
-//	
-//	//Code begins from here the part above is just for getters setters and necessary variable declaration 
-//
-//	public void NewtonMethod(int problemType,double[] coeffs, double l, double u,double tol)
-//	{
-//		setTol(tol);
-//		setCoeffs(coeffs);
-//		setL(l);
-//		setU(u);
-//		
-//	}
-//	
-//	
-//	//_______________________________________ Preparation operations ____________________________________________
-//	public double getFunction(double x)
-//	{
-//		double[] myCoeffs=getCoeffs();
-//		//the code below just calculates the value of the function f(x)=x^3*c0 +x^2*c1 +x^1*c2 + c3
-//		//coeff indexes are constant since the equation format in the question is static
-//		return  myCoeffs[3]+(myCoeffs[2]*x)+(Math.pow(x, 2)*coeffs[1])+(Math.pow(x, 3)*coeffs[0]);
-//		
-//	}
-//	public double getFunctionDerivative(double x)
-//	{
-//		double[] myCoeffs=getCoeffs();
-//		//the code below just calculates the derivative of the function f'(x)=3*x^2*c0 +2*x*c1 +c2 
-//		//coeff indexes are constant since the equation format in the question is static
-//		return  (myCoeffs[2])+(2*x*coeffs[1])+(3*Math.pow(x, 2)*coeffs[0]);
-//		
-//	}
-//	public double getFunctionSecondDerivative(double x)
-//	{
-//		double[] myCoeffs=getCoeffs();
-//		//the code below just calculates the derivative of the function f'(x)=6*x*c0 +2*c1
-//		//coeff indexes are constant since the equation format in the question is static
-//		return  (2*coeffs[1])+(6*x*coeffs[0]);
-//		
-//	}
-//	
-//	public double getInitialValueOfX()
-//	{
-//		
-//		return ((getU()+getL())/2);
-//	}
-//	
-//	
-//	public double performNewtonMethod()
-//	{
-//		//gets the initial value of x (from lecture notes if interval is given then the x initial can be easily calculated)
-//		x=getInitialValueOfX();
-//		int iterationCount=0;
-//		//compares delta tolerance before that to calculate delta must iterate once. thus i used do while instead of while do
-//	    do{
-//			//calculates new x for the iteration
-//			double xNew = x- (getFunctionDerivative(x)/getFunctionSecondDerivative(x));
-//			System.out.println (" # of Iteration: " +String.valueOf(iterationCount)+"------->" + String.valueOf(xNew));
-//			iterationCount++;
-//			//calculates delta
-//			delta=Math.abs((x-xNew));
-//			//prepares x for new iteration
-//			x = xnew;
-//	    }while ( delta > tol);
-//	    
-//	    //returns Newton's method result
-//		return x;
-//	}
+	public GoldenSectionMethod(double e,double l, double u,double [] cE)
+	{
+		
+		//Step 0
+		setUnCertanity(e);  
+		setCoEffs(cE);
+		setGoldenRatio(0.618);  //Golden Ratio
+		
+		// Step 1
+		setXLower(l);  
+		setXUpper(u);
+		
+		//Step2
+		while (getXUpper()-getXLower() > getUnCertanity()) 
+		{
+		//Step 3
+		setXMone(calculateXMone(getXUpper(),getXLower(),getGoldenRatio()));
+		setXMtwo(calculateXMtwo(getXUpper(),getXLower(),getGoldenRatio()));	
+		//Step 4
+		functionWithXMone=calculateFunction(getXMone(),getCoEffs());
+		functionWithXMtwo=calculateFunction(getXMtwo(),getCoEffs());
+		if (functionWithXMone > functionWithXMtwo)
+			{
+			setXUpper(getXMtwo());	
+			}
+		else if (functionWithXMone < functionWithXMtwo)
+			{
+			setXLower(getXMone());	
+			}
+		else if (functionWithXMone == functionWithXMtwo)
+			{
+			setXUpper(getXMtwo());	
+			setXLower(getXMone());	
+			}
+	
+		}
+		//Step5
+		//RETURN RESULTS
+		setXMean(calculateXm(getXUpper(),getXLower())); 
+		System.out.println("Report of BisectionSearch");
+		System.out.println("App. Optimum Soln.=" + String.valueOf(getXMean()));
+		System.out.println("Abs. Range for Opt. Soln.=[" + String.valueOf(getXLower())+"-"+String.valueOf(getXUpper())+"]");
+		System.out.println("Z=" + String.valueOf(calculateFunction(getXMean(),getCoEffs())));
+
+	
+		
+	}
+	
+	//_______________________________________ Preparation operations ____________________________________________	
+	public double calculateXm(double Xu,double Xl)
+	{
+		return (Xu+Xl)/2;	
+	}
+	public double calculateFunction(double XMean,double[] coEffs)
+	{
+		//the code below just calculates the value of the function f(x)=x^3*c0 +x^2*c1 +x^1*c2 + c3
+		//coeff indexes are constant since the equation format in the question is static
+		return  coEffs[3]+(coEffs[2]*XMean)+(Math.pow(XMean, 2)*coEffs[1])+(Math.pow(XMean, 3)*coEffs[0]);
+		
+	}
+	public double calculateFirstDerivative(double XMean,double[] coEffs)
+	{
+		//the code below just calculates the derivative of the function f'(x)=3*x^2*c0 +2*x*c1 +c2 
+		//coeff indexes are constant since the equation format in the question is static
+		return  (coEffs[2])+(2*XMean*coEffs[1])+(3*Math.pow(XMean, 2)*coEffs[0]);
+		
+	}
+	public double calculateXMone(double XUpper,double XLower,double goldenRatio)
+	{
+		return XUpper - goldenRatio*(XUpper-XLower);
+	}
+
+	public double calculateXMtwo(double XUpper,double XLower,double goldenRatio)
+	{
+		return XLower + goldenRatio*(XUpper-XLower);
+	}
+	public double getXMean() {
+		return XMean;
+	}
+
+	public void setXMean(double xMean) {
+		XMean = xMean;
+	}
+
+	public double getXUpper() {
+		return XUpper;
+	}
+
+	public void setXUpper(double xUpper) {
+		XUpper = xUpper;
+	}
+
+	public double getXLower() {
+		return XLower;
+	}
+
+	public void setXLower(double xLower) {
+		XLower = xLower;
+	}
+
+	public double getUnCertanity() {
+		return UnCertanity;
+	}
+
+	public void setUnCertanity(double unCertanity) {
+		UnCertanity = unCertanity;
+	}
+
+	public double[] getCoEffs() {
+		return coEffs;
+	}
+
+	public void setCoEffs(double[] coEffs) {
+		this.coEffs = coEffs;
+	}
+
+	public double getGoldenRatio() {
+		return goldenRatio;
+	}
+
+	public void setGoldenRatio(double goldenRatio) {
+		this.goldenRatio = goldenRatio;
+	}
+
+	public double getXMone() {
+		return XMone;
+	}
+
+	public void setXMone(double xMone) {
+		XMone = xMone;
+	}
+
+	public double getXMtwo() {
+		return XMtwo;
+	}
+
+	public void setXMtwo(double xMtwo) {
+		XMtwo = xMtwo;
+	}
+	
 }
